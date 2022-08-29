@@ -1,0 +1,5 @@
+name: ExtraPetEffects
+version: '${version}'
+main: com.danielraybone.extrapeteffects.ExtraPetEffects
+depend: [ ElitePets ]
+authors: [ DanielRaybone ]
