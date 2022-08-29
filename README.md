@@ -5,7 +5,7 @@ Adds new "WEB" effect to [ElitePets](https://www.spigotmc.org/resources/elitepet
 Place cobwebs on feet of players within radius and apply slowness 1. 
 ## Usage
 
-> WEB:x:y:z:ticks
+> `WEB:x:y:z:ticks`
 
 `x:y:z` is the radius that the effect happens.
 
