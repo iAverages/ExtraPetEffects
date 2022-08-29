@@ -21,6 +21,7 @@ public class Effect extends CustomEffect {
     private final ExtraPetEffects core;
     public Map<Location, Material> webs = new HashMap<>();
     public Map<Location, BukkitTask> schedules = new HashMap<>();
+
     public Effect(ExtraPetEffects core, String name, String description, String usage) {
         super(name, description, usage);
         this.core = core;
@@ -28,12 +29,21 @@ public class Effect extends CustomEffect {
 
     @Override
     public void run(Pet pet, ItemStack itemStack, Player player, LivingEntity entity, int level, String[] arguments) {
-        int x = Integer.parseInt(arguments[1]);
-        int y = Integer.parseInt(arguments[2]);
-        int z = Integer.parseInt(arguments[3]);
-        int ticks = Integer.parseInt(arguments[4]);
+        int x;
+        int y;
+        int z;
+        int ticks;
+        try {
+            x = Integer.parseInt(arguments[1]);
+            y = Integer.parseInt(arguments[2]);
+            z = Integer.parseInt(arguments[3]);
+            ticks = Integer.parseInt(arguments[4]);
+        } catch (NumberFormatException e) {
+            this.core.getLogger().severe("Invalid parameters for WEB effect, x:y:z:ticks must be numbers");
+            return;
+        }
 
-        Collection<Entity> players = player.getWorld().getNearbyEntities(player.getLocation(), x,y,z)
+        Collection<Entity> players = player.getWorld().getNearbyEntities(player.getLocation(), x, y, z)
                 .stream()
                 .filter(entity1 -> entity1 instanceof Player)
                 .collect(Collectors.toList());
@@ -43,7 +53,7 @@ public class Effect extends CustomEffect {
             Player p = (Player) ent;
             Location loc = p.getLocation().getBlock().getLocation();
             Material block = loc.getBlock().getType();
-            p.teleport(loc.setDirection(p.getLocation().getDirection()).add(0.5,0,0.5));
+            p.teleport(loc.setDirection(p.getLocation().getDirection()).add(0.5, 0, 0.5));
             loc.getBlock().setType(Material.WEB);
             p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, ticks, 0));
             if (webs.containsKey(loc)) {
