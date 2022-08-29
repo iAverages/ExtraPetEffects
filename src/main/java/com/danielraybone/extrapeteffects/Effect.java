@@ -54,7 +54,12 @@ public class Effect extends CustomEffect {
             Location loc = p.getLocation().getBlock().getLocation();
             Material block = loc.getBlock().getType();
             p.teleport(loc.setDirection(p.getLocation().getDirection()).add(0.5, 0, 0.5));
-            loc.getBlock().setType(Material.WEB);
+            // Not sure why but when I add Essentials on gradle it changes this class and
+            // Material.WEB doesnt exist
+            loc.getBlock().setType(Material.getMaterial("WEB"));
+            if (this.core.isEssentialsEnabled()) {
+                this.core.getEssentials().getUser(player).resetInvulnerabilityAfterTeleport();
+            }
             p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, ticks, 0));
             if (webs.containsKey(loc)) {
                 BukkitTask task = schedules.get(loc);
